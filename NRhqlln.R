@@ -26,11 +26,13 @@ HQL_lnkm=function(beta_h0ln,v_h0ln,alpha_h0ln){
     Hv_xs0ln=NA;Hbv_xsln=NA;
     
     for (a in 1:n) {
-      n_0=(a-1)*q+1;     ### the start number of cluster a
-      n_1=a*q;           ### the end number of cluster a
-      ### log-normal frailty
+      if(a>1){
+        n_0=sum(q[1:(a-1)])+1; ### the start number of cluster a
+        n_1=sum(q[1:a]);   ### the end number of cluster a
+      }else{
+        n_0=1;n_1=q[1];
+      }
       xi_v2ln=colSums(xi_v21ln*dMc_hat[,n_0:n_1]);  
-      #    xi_xv3ln=-v_h1ln[a]*i_alpln;
       xi_xv3ln=-v_h1ln[a]*i_alpln;
       ######### final estimator of xi_v ###########
       xi_xvln=xi_v1ln[n_0:n_1]+xi_v2ln+xi_xv3ln;    
@@ -93,7 +95,7 @@ HQL_lnkm=function(beta_h0ln,v_h0ln,alpha_h0ln){
   repeat
   {  
     ########### log-normal frailty  #########
-    v_0ln=rep(v_h0ln,each=q); ### N*1 vector
+    v_0ln=rep(v_h0ln,q); ### N*1 vector
     cv_0ln=x1*beta_h0ln+v_0ln;    ### eta_hat: N*1 vector
     expeta_h0ln=as.numeric(exp(cv_0ln));  ### exp(eta_hat): N*1 vector
     ########### common parts include beta and v #########
@@ -108,9 +110,12 @@ HQL_lnkm=function(beta_h0ln,v_h0ln,alpha_h0ln){
     v_mat0ln=matrix(0,nrow=D,ncol=n);  
     vz_mat0ln=matrix(0,nrow=D,ncol=n);  
     for (a in 1:n) {
-      n_0=(a-1)*q+1;     ### the start number of cluster a
-      n_1=a*q;           ### the end number of cluster a
-      ### log-normal
+      if(a>1){
+        n_0=sum(q[1:(a-1)])+1; ### the start number of cluster a
+        n_1=sum(q[1:a]);   ### the end number of cluster a
+      }else{
+        n_0=1;n_1=q[1];
+      }
       v_mat0ln[,a]=colSums(Wi_exp0ln[n_0:n_1,]);  #### D*1 vector
       vz_mat0ln[,a]=colSums(Wx_exp0ln[n_0:n_1,]);  #### D*1 vector  
     }
@@ -163,9 +168,12 @@ HQL_lnkm=function(beta_h0ln,v_h0ln,alpha_h0ln){
     ##### initial matrix ######
     mat_vln=matrix(0,nrow=D,ncol=n);  
     for (a in 1:n) {
-      n_0=(a-1)*q+1;     ### the start number of cluster a
-      n_1=a*q;           ### the end number of cluster a
-      #### log-normal frailty
+      if(a>1){
+        n_0=sum(q[1:(a-1)])+1; ### the start number of cluster a
+        n_1=sum(q[1:a]);   ### the end number of cluster a
+      }else{
+        n_0=1;n_1=q[1];
+      }
       mat_vln[,a]=colSums(M_hat0ln[n_0:n_1,]);  #### D*1 vector
     }
     
@@ -214,7 +222,7 @@ HQL_lnkm=function(beta_h0ln,v_h0ln,alpha_h0ln){
     
     
     ########### updated basic parts #########
-    v_1ln=rep(v_h1ln,each=q); ### N*1 vector
+    v_1ln=rep(v_h1ln,q); ### N*1 vector
     cv_1ln=x1*beta_h1ln+v_1ln;    ### eta_hat: N*1 vector
     expeta_h1ln=as.numeric(exp(cv_1ln));  ### exp(eta_hat): N*1 vector
     ############ update common parts (include beta and v) ###############
@@ -229,9 +237,12 @@ HQL_lnkm=function(beta_h0ln,v_h0ln,alpha_h0ln){
     v_mat1ln=matrix(0,nrow=D,ncol=n);  
     vz_mat1ln=matrix(0,nrow=D,ncol=n);  
     for (a in 1:n) {
-      n_0=(a-1)*q+1;     ### the start number of cluster a
-      n_1=a*q;           ### the end number of cluster a
-      
+      if(a>1){
+        n_0=sum(q[1:(a-1)])+1; ### the start number of cluster a
+        n_1=sum(q[1:a]);   ### the end number of cluster a
+      }else{
+        n_0=1;n_1=q[1];
+      }
       v_mat1ln=matrix(0,nrow=D,ncol=n);  
       vz_mat1ln=matrix(0,nrow=D,ncol=n);  
     }
@@ -307,8 +318,12 @@ HQL_lnkm=function(beta_h0ln,v_h0ln,alpha_h0ln){
     ####### initial vectors #######
     xi_v1ln=NA;
     for (a in 1:n) {
-      n_0=(a-1)*q+1;     ### the start number of cluster a
-      n_1=a*q;           ### the end number of cluster a
+      if(a>1){
+        n_0=sum(q[1:(a-1)])+1; ### the start number of cluster a
+        n_1=sum(q[1:a]);   ### the end number of cluster a
+      }else{
+        n_0=1;n_1=q[1];
+      }
       ### a) estimate the 1st part of xi_v ####
       ###### log-normal frailty
       xi_v11ln=colSums(t(M_hat1ln[n_0:n_1,])*d_n);  ### q*1 vector
