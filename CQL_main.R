@@ -31,7 +31,7 @@ attach(our.data);
 c_c=names(table(o.id));
 nam_c=as.vector(c_c);  ### name of cluster
 s_c=as.data.frame(table(o.id))$Freq;
-q=as.vector(s_c)[1];  ### size of each cluster
+q=as.vector(s_c);  ### size of clusters
 n=length(nam_c);  ### number of cluster
 N=nrow(our.data);   ### sample size
 N_c=ncol(our.data);  ### number of variables in the data
