@@ -15,8 +15,6 @@ library(rms)
 ## R packages to use hessian function in HQL
 library(numDeriv)
 
-## set the working directory to use functions ##
-setwd('/Users/jojomeng/Library/CloudStorage/Dropbox/PhD/Research/MRL One event/penalty/real data analysis/github 1cov')
 
 ### load Newton-Raphson iterative functions ###
 source("NRcqlbj.R")
