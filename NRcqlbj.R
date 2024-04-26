@@ -13,7 +13,7 @@ CQL_bj=function(beta_h0,v_h0){
   { 
     #############################
     #####(i) basic parts ####
-    v_0=rep(v_h0,each=q); ### N*1 vector
+    v_0=rep(v_h0,q); ### N*1 vector
     cv_0=x1*beta_h0+v_0;    ### eta_hat: N*1 vector
     expeta_h0=as.numeric(exp(cv_0));  ### exp(eta_hat): N*1 vector
     ###########a) common parts include beta and v #########
@@ -26,8 +26,12 @@ CQL_bj=function(beta_h0,v_h0){
     v_mat0=matrix(0,nrow=D,ncol=n);  
     vx_mat0=matrix(0,nrow=D,ncol=n);  
     for (a in 1:n) {
-      n_0=(a-1)*q+1;     ### the start number of cluster a
-      n_1=a*q;           ### the end number of cluster a
+      if(a>1){
+        n_0=sum(q[1:(a-1)])+1; ### the start number of cluster a
+        n_1=sum(q[1:a]);   ### the end number of cluster a
+        }else{
+        n_0=1;n_1=q[1];
+        }
       v_mat0[,a]=colSums(Wi_exp0[n_0:n_1,]);  #### D*1 vector
       vx_mat0[,a]=colSums(Wx_exp0[n_0:n_1,]);  #### D*1 vector  
     }
@@ -58,8 +62,12 @@ CQL_bj=function(beta_h0,v_h0){
     ################ the 1st part: dl1/dv ##############
     sc_v1=NA;   ##### initial vector
     for (a in 1:n) {
-      n_0=(a-1)*q+1;     ### the start number of cluster a
-      n_1=a*q;           ### the end number of cluster a
+      if(a>1){
+        n_0=sum(q[1:(a-1)])+1; ### the start number of cluster a
+        n_1=sum(q[1:a]);   ### the end number of cluster a
+      }else{
+        n_0=1;n_1=q[1];
+      }
       sc_v1[a]=sum(sc_com[n_0:n_1]); 
     }
     ################# final estimate eq of v ################
